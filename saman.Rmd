@@ -1,0 +1,362 @@
+---
+title: "Recommandation et transparence"
+author: "CB"
+date: "17 octobre 2019"
+output: html_document
+toc: TRUE
+toc_float : true
+---
+
+<style type="text/css">
+body, td {
+   font-size: 14px;
+}
+code.r{
+  font-size: 10px;
+}
+h1{
+  font-size: 24px;
+}
+h2{
+  font-size: 18px;
+}
+pre {
+  font-size: 11px
+}
+</style>
+
+![](recommandation.jpeg){width=90%}
+
+This document is writen with [rmarkdown](https://bookdown.org/yihui/rmarkdown/) and contain computations relative to a small experiment about algorithmic transparency policy. The reference paper is [available here](https://management-datascience.org/2018/01/18/satisfaction-a-legard-des-moteurs-de-recommandation-la-transparence-optimale/)
+
+
+The first chunk load the package we will need and include main variable recoding.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)      #to import *.csv file
+library(Rcmdr)      #for interactive session with common analysis
+library(corrplot)   #for vizualizing correlation
+library(tidyverse)  # a set of package including ggplot and dplyr (for data manipulation)
+library(reshape2)   # to tranform wide file in long file ( usefull with ggplot)
+library(jtools)     #tools for regression results vizualisation
+library(lavaan)     # for sem modeling
+library(semPlot)
+
+reco_a <- read_delim("reco_a.csv", ";", escape_double = FALSE, 
+    trim_ws = TRUE)
+reco_a$Transparency <-as.factor(reco_a$Transparence_Nominale)
+reco_a$Purchase_frequency <-as.factor(reco_a$Frequence.achats)
+reco_a$Purchase_frequency[reco_a$Frequence.achats=="Jamais"]<-"Moins d'une fois par an"
+reco_a$Frequence.visites <-as.factor(reco_a$Frequence.visites)
+reco_a$EtatdEsprit <-as.factor(reco_a$EtatdEsprit)
+reco_a$Sexe <-as.factor(reco_a$Sexe)
+reco_a$Anciennete.compte <-as.factor(reco_a$Anciennete.compte)
+```
+
+## Elementary Statistics
+
+We will use [ggplot2](https://ggplot2.tidyverse.org/index.html)
+
+
+```{r elementary}
+#create concept scores for multi-items measurement
+
+reco_a$Confiance <- (reco_a$C_Bienveillance + reco_a$C_Competence + reco_a$C_Donnees.navigation + reco_a$C_Ethique + reco_a$C_Infos.perso)/5
+
+reco_a$Satisfaction <- (reco_a$S_Interesse.par.produits.reco+
+                          reco_a$S_Promoter.score+
+                          reco_a$S_Recos.repondent.aux.besoins+
+                          reco_a$S_Satisfaction.globale+reco_a$S_Tentation.d.achat)/5
+
+reco_a$Understanding <- (reco_a$U_Comment+ reco_a$U_Interets+ reco_a$U_pourquoi+ reco_a$U_Technique)/4
+#basic statistic with rcmdr
+
+numSummary(reco_a[,c("Confiance", "Satisfaction", "Understanding"), drop=FALSE], statistics=c("mean", "sd", "cv"))
+
+
+#comparing empirical and theoretical distribution ( density function)
+
+g1<-ggplot(data = reco_a, aes(x=Confiance))+geom_density()
+g1 <- g1 + stat_function(fun=dnorm, color="red", args=list(mean=mean(reco_a$Confiance), 
+                                  sd=sd(reco_a$Confiance)))
+g1
+#comparing distribution per group
+g2<-ggplot(data = reco_a, aes(x=Transparence_Nominale,y=Confiance))+geom_violin()
+g2
+
+Dependant<-subset(reco_a,select=c(Confiance,Satisfaction,Understanding))
+Dependant<-melt(data = Dependant)
+ggplot(Dependant, aes(x = value, fill = variable)) + geom_density(alpha = 0.2)
+
+```
+
+## Analyse bivariée
+
+
+### t test
+
+the elementary bivariate analysis is a comparaison of two groups and is better if we test the difference. For a detailed presentation see https://uc-r.github.io/t_test
+
+
+```{r bivarttest}
+
+reco_a$Sexe2<-as.factor(reco_a$Sexe) 
+with(reco_a, plotMeans(C_Ethique, Sexe2, error.bars="se", connect=TRUE)) #with Rcmdr
+t.test(C_Ethique~Sexe, alternative='two.sided', conf.level=.95, var.equal=FALSE, data=reco_a)
+```
+### ANOVA
+
+ANOVA is a kind of generalization of the 2-group comparisons
+
+
+for details : https://bioinformatics-core-shared-training.github.io/linear-models-r/ANOVA.html
+
+
+```{r confiance}
+AnovaModel.1 <- aov(Satisfaction ~ Transparence_Nominale, data=reco_a)
+summary(AnovaModel.1)
+with(reco_a, numSummary(Satisfaction, groups=Transparence_Nominale, 
+  statistics=c("mean", "sd")))
+```
+
+the test is significant à the 95% level of confidence, so we can analyse the difference. The following plot compare means of the 3 variables for the three treatments and give confidence intervals.
+
+from http://www.sthda.com/french/wiki/ggplot2-barres-d-erreur-guide-de-demarrage-rapide-logiciel-r-et-visualisation-de-donnees
+
+```{r graph, echo=TRUE}
+#preparing the data
+means<- aggregate(cbind(Confiance, Satisfaction, Understanding) ~ Transparence_Nominale, data=reco_a, FUN="mean")
+
+Sd<- aggregate(cbind(Confiance, Satisfaction, Understanding) ~ Transparence_Nominale, data=reco_a, FUN="sd")
+meansM <- melt(means, id=c("Transparence_Nominale")) 
+SdM <- melt(Sd, id=c("Transparence_Nominale"))
+SdM$sd<-SdM$value
+SdM<-subset(SdM,select=c(sd))
+meansM<-cbind(meansM,SdM)
+
+#making the chart
+
+g<- ggplot(meansM, aes(x=Transparence_Nominale, y=value, fill=variable)) 
+g<-g+geom_bar(stat="identity", color="black", position=position_dodge())
+g
+g<-g+geom_errorbar(aes(ymin=value-sd, ymax=value+sd), width=.2,
+                position=position_dodge(.9)) + labs(title="Response to transparency",x="Transparence_Nominale", y = "valeur")+ theme_classic() +  scale_fill_manual(values=c('#999999','#E69F00', '#c62e0d'))
+
+g
+```
+
+
+### Correlations
+
+for a definition of correlation see : http://www.r-tutor.com/elementary-statistics/numerical-measures/correlation-coefficient
+
+in the following chart we represent correlation  between Confiance and Satisfaction as an xy chart as a linear function (y=ax+b). Confidence intervals are represented in the grey area. We add a non linear function ( loess) in red.
+
+```{r bivariate2}
+ggplot(reco_a, aes(x=Confiance, y=Satisfaction)) + geom_point()+ geom_smooth(method='lm')+geom_smooth(method='loess',color="red")
+
+```
+
+When we need to compute a large number of correlation, it is usefull to visualize the large matrix. In this case line and column are rearranged with the clustering function "hclust".
+
+read also https://rstudio-pubs-static.s3.amazonaws.com/240657_5157ff98e8204c358b2118fa69162e18.html
+
+```{r bivariate3}
+Mcorr <- subset(reco_a, select=c(C_Bienveillance, C_Competence, C_Donnees.navigation, C_Ethique,  C_Infos.perso, C_Securite, S_Interesse.par.produits.reco, S_Promoter.score,S_Recos.repondent.aux.besoins, S_Satisfaction.globale, S_Tentation.d.achat,  Transparence_Numerique, U_Comment, U_Interets,U_pourquoi,U_Technique))
+M<-round(cor(Mcorr),2)
+M
+corrplot(M, method="color",type="lower", order="hclust")
+
+```
+
+## Factor analysis and measurement reliability
+
+done with Rcmdr ( factanal) with 3 factors and a promax rotation that let the factor to be correlated.
+
+more is here http://www.karlin.mff.cuni.cz/~maciak/NMST539/cvicenie8.html
+
+or http://www.di.fc.ul.pt/~jpn/r/factoranalysis/factoranalysis.html
+
+
+to do better use the package psych : 
+
+
+```{r factor}
+.FA <- factanal(~C_Bienveillance+C_Competence+C_Donnees.navigation+C_Ethique+C_Infos.perso+C_Securite+S_Interesse.par.produits.reco+S_Promoter.score+S_Recos.repondent.aux.besoins+S_Satisfaction.globale+S_Tentation.d.achat+U_Comment+U_Interets+U_pourquoi+U_Technique,factors=3, rotation="promax", scores="none", data=reco_a)
+print(.FA)
+
+```
+
+as we obtain a confirmation of the 3-dimensionnal structure of the response (Understanding,Trust, satisfaction) we could evaluate the reliability and validity of the scales computing conbach alpha and analysing between and inter scale correlations.
+
+A Sem model is better of course ( see the last part) to test a Confirmatory Factor Analysis
+
+for the case of Confiance( trust) alpha is excellen( (more than 0.90)). If the security item is eliminated, there is no loss of information. We could so reduce the scale without decreae its reliability.
+
+
+
+```{r reliability}
+reliability(cov(reco_a[,c("C_Bienveillance","C_Competence","C_Donnees.navigation","C_Ethique",
+  "C_Infos.perso","C_Securite")], use="complete.obs"))
+
+```
+
+correlation between item and score are far over correlation between concept, there is some good discrimination between the concept, and so a good validity of the three dimensional concept of consumer reponse.
+
+
+```{r validity}
+M<-subset(reco_a, select=c("Confiance", "Understanding", "Satisfaction"))
+M<-round(cor(M),2)
+M
+```
+
+
+## model testing
+
+for a quick but complete presentation http://www.sthda.com/english/articles/40-regression-analysis/168-multiple-linear-regression-in-r/
+
+here we test two models to detect eventualy some interaction effect (and so moderating variable). The second one has an interaction effet that test the moderating effect of Purchase_frequency, The two model are then compared through an ANOVA test. ( see : https://bookdown.org/ndphillips/YaRrr/comparing-regression-models-with-anova.html)
+
+
+
+```{r lm2}
+LinearModel.2 <- lm(Confiance ~ Sexe + Transparence_Nominale, data=reco_a)
+summary(LinearModel.2)
+LinearModel.3 <- lm(Confiance ~ Sexe + Transparence_Nominale +Transparence_Nominale*Sexe, data=reco_a)
+summary(LinearModel.3)
+anova(LinearModel.2,LinearModel.3)
+
+#for illustration 
+level<- aggregate(cbind(Confiance, Satisfaction, Understanding) ~ Transparence_Nominale+Sexe, data=reco_a, FUN="mean")
+level <- melt(level) 
+p1 <- ggplot(data = level, aes(x = Transparence_Nominale, y = value, group =Sexe, color=Sexe )) 
+p1<- p1 + geom_point(size=2)+geom_line(stat="identity", size=2)+facet_grid(.~variable)
+p1
+
+```
+
+to improve the procedure, a classic aproach is "Process" implemented in the processr package : 
+https://rpubs.com/markhw/processr. 
+
+It is usefull ( nd it is a growing trend) to represent graphically the results of a regression model. Jtools is usefull for this purpose with the Plot_summs function. See : 
+
+```{r lm1}
+summ(LinearModel.3)
+plot_summs(LinearModel.3, scale = TRUE)
+
+```
+
+
+
+## Clustering
+
+
+### kmeans
+
+look at this bank customer segmentation exemple
+https://rpubs.com/cpatinof/clusteringMktngDataCaseStudy
+
+
+```{r clus01, echo=FALSE}
+x<-subset(reco_a,select=c(Confiance, Understanding, Satisfaction))
+kmeans(x, center=3,iter.max = 10, nstart = 1,algorithm = c("Hartigan-Wong"))
+kmeans<-kmeans(x, center=3,iter.max = 10, nstart = 1,algorithm = c("Hartigan-Wong"))
+#extract a list from a 
+center<-as.data.frame(kmeans[[2]]) #extract a component from a list
+center$group<-rownames(center)
+center<-melt(center)
+ggplot(center,aes(x=variable,y=value,group=group,color=group))+geom_line(stat="identity", size=2)
+
+```
+
+
+### hierarchical clustering
+
+this method come from biology and was develop to classify species :
+
+https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html
+
+
+
+```{r clus2}
+# Ward Hierarchical Clustering
+d <- dist(x, method = "euclidean") # distance matrix
+fit <- hclust(d, method="ward.D")
+plot(fit) # display dendogram
+HCgroups <- cutree(fit, k=3) # cut tree into 5 clusters
+# draw dendogram with red borders around the 5 clusters
+rect.hclust(fit, k=3, border="red")
+```
+### Convergence test
+
+do the two method give the same results?
+
+just crosstabs and compute the chi² test.
+
+
+
+```{r chi2, warning=FALSE}
+
+KMcluster<-as.data.frame(kmeans[[1]]) #extract a component from a list
+names(KMcluster)[names(KMcluster)=="kmeans[[1]]"] <- "KMcluster"
+typo<-cbind(KMcluster,HCgroups)
+typo$KMcluster<-as.factor(typo$KMcluster)
+typo$HCgroups<-as.factor(typo$HCgroups)
+
+.Table <- xtabs(~HCgroups+KMcluster, data=typo)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+  cat("\nExpected counts:\n")
+  print(.Test$expected)
+  cat("\nChi-square components:\n")
+  print(round(.Test$residuals^2, 2)) 
+```
+
+
+
+
+
+# Structural equation modeling
+
+we use Lavaan
+
+http://lavaan.ugent.be/
+
+```{r sem, echo=FALSE}
+
+library(lavaan)
+#TRANSPARENCE
+reco_a$Tr1<-0
+reco_a$Tr1[reco_a$Transparence_Nominale=="2-Moderee"]<-1
+
+reco_a$Tr2<-0
+reco_a$Tr2[reco_a$Transparence_Nominale=="3-Forte"]<-1
+
+
+myModel2 <- '
+#measurement
+  Confiance =~ C_Bienveillance + C_Competence + C_Donnees.navigation + C_Ethique + C_Infos.perso
+  Satisfaction =~ S_Interesse.par.produits.reco + S_Promoter.score + S_Recos.repondent.aux.besoins + S_Satisfaction.globale + S_Tentation.d.achat
+  Understanding =~ U_Comment+ U_Interets+ U_pourquoi+ U_Technique
+#regression
+  Confiance ~ Understanding
+  Satisfaction ~ Confiance
+  Confiance~Tr1+Tr2
+#constraint
+Tr1~0*Tr2
+'
+
+fit1a <- sem(model=myModel2, data=reco_a)
+summary(fit1a, standardized = TRUE)
+
+
+fit1c <- sem(model=myModel2, data=reco_a,group = "Sexe")
+summary(fit1c, standardized = TRUE)
+
+semPaths(fit1a,"std", intercepts = FALSE, layout = "spring", style="lisrel")
+```
+

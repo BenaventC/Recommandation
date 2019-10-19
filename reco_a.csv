@@ -1,0 +1,53 @@
+Transparence_Numerique;Transparence_Nominale;Age;CSP;Sexe;S_Satisfaction.globale;S_Recos.repondent.aux.besoins;S_Interesse.par.produits.reco;S_Tentation.d.achat;S_Promoter.score;C_Competence;C_Bienveillance;C_Securite;C_Infos.perso;C_Donnees.navigation;C_Ethique;U_pourquoi;U_Comment;U_Interets;U_Technique;Anciennete.compte;Frequence.visites;Frequence.achats;EtatdEsprit;Lecture.Complète;Desir.Infos.supp
+1;1-Aucune;18-25;Etudiant;Masculin;4;5;5;5;5;4;2;4;3;3;3;4;3;4;2;Moins d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour comparer;Oui;oui
+1;1-Aucune;18-25;Etudiant;Feminin;5;4;4;3;4;4;4;1;6;5;3;6;5;6;2;Pour cette experience;Jamais;Moins d'une fois par mois;Pour comparer;Oui;non
+1;1-Aucune;18-25;Etudiant;Feminin;4;4;3;2;4;5;5;2;4;4;4;6;5;5;4;Plus d'un an;Plusieurs fois par semaine;Moins d'une fois par mois;Pour explorer;Oui;non
+1;1-Aucune;18-25;Etudiant;Feminin;5;5;5;4;4;4;4;4;4;4;4;6;5;6;5;Plus d'un an;Plusieurs fois par semaine;Plusieus fois par mois;Pour comparer;Oui;non
+1;1-Aucune;18-25;Etudiant;Feminin;4;5;5;4;4;4;3;4;4;3;4;4;4;5;4;Plus d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+1;1-Aucune;18-25;Etudiant;Feminin;4;4;4;3;3;4;3;3;3;3;3;4;4;4;4;Moins d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+1;1-Aucune;18-25;Etudiant;Masculin;4;5;4;3;4;5;4;5;5;4;4;6;5;5;5;Plus d'un an;Plusieurs fois par semaine;Plusieus fois par mois;Pour comparer;Oui;non
+1;1-Aucune;18-25;Etudiant;Masculin;4;4;4;4;4;4;4;4;4;4;4;6;5;5;5;Plus d'un an;Plusieurs fois par semaine;Plusieus fois par mois;Pour comparer;Oui;non
+1;1-Aucune;18-25;Etudiant;Masculin;4;5;5;4;4;4;3;3;4;4;4;5;5;5;5;Plus d'un an;Plusieurs fois par semaine;Plusieus fois par mois;Pour comparer;Oui;non
+1;1-Aucune;18-25;Demandeur d'emploi;Feminin;5;5;5;4;4;4;3;3;3;3;3;4;4;4;3;Pour cette experience;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;oui
+1;1-Aucune;26-39;Cadre ;Masculin;4;3;4;3;3;4;3;4;4;4;3;5;4;5;4;Plus d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour explorer;Oui;non
+1;1-Aucune;26-39;Cadre ;Masculin;4;4;3;3;4;5;4;4;4;3;4;5;5;5;5;Plus d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour explorer;Oui;non
+1;1-Aucune;26-39;Cadre ;Feminin;4;6;4;5;5;6;5;3;6;5;4;6;6;6;5;Plus d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour comparer;Oui;non
+1;1-Aucune;26-39;Cadre ;Feminin;4;4;4;3;4;4;3;3;4;4;3;5;4;5;4;Moins d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+1;1-Aucune;40-59;Cadre ;Feminin;5;4;4;3;4;4;4;3;4;3;4;5;4;4;3;Moins d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+1;1-Aucune;40-59;Employe;Feminin;4;4;4;3;4;4;3;2;3;2;3;3;2;3;2;Pour cette experience;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+1;1-Aucune;40-59;Employe;Masculin;4;4;4;3;3;3;2;2;2;1;2;3;2;3;2;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+3;2-Moderee;18-25;Etudiant;Masculin;4;5;5;5;4;5;3;4;4;4;3;6;5;5;5;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par an;Pour un achat precis;Oui;non
+3;2-Moderee;18-25;Etudiant;Masculin;5;5;5;4;5;6;5;4;6;6;4;6;6;6;6;Plus d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour comparer;Oui;non
+3;2-Moderee;18-25;Etudiant;Masculin;5;5;4;4;4;5;4;4;4;4;4;5;4;5;4;Moins d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour comparer;Oui;non
+3;2-Moderee;18-25;Etudiant;Masculin;4;5;4;4;4;4;4;3;4;4;3;5;5;5;5;Moins d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+3;2-Moderee;18-25;Etudiant;Feminin;3;4;3;3;3;4;3;3;4;3;3;4;3;4;3;Pour cette experience;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+3;2-Moderee;18-25;Etudiant;Feminin;5;6;5;5;5;6;4;5;6;6;4;6;6;6;6;Plus d'un an;Quotidiennement;Plusieus fois par mois;Pour explorer;Oui;non
+3;2-Moderee;18-25;Etudiant;Masculin;4;4;4;4;4;5;5;4;3;3;3;5;4;5;4;Plus d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+3;2-Moderee;18-25;Etudiant;Masculin;6;5;5;5;5;5;4;5;5;5;4;6;5;5;5;Plus d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour comparer;Oui;non
+3;2-Moderee;18-25;Etudiant;Feminin;5;6;4;4;5;5;4;4;5;5;4;5;4;5;4;Plus d'un an;Moins d'une fois par mois;Plusieus fois par mois;Pour un achat precis;Oui;oui
+3;2-Moderee;18-25;Etudiant;Feminin;5;5;5;5;5;4;3;3;4;4;4;4;4;4;4;Moins d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;oui
+3;2-Moderee;18-25;Cadre ;Feminin;6;4;5;5;3;6;4;4;6;6;4;6;6;6;6;Plus d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour un achat precis;Oui;non
+3;2-Moderee;26-39;Employe;Feminin;6;6;6;6;6;5;6;6;6;5;5;5;4;6;4;Plus d'un an;Quotidiennement;Plusieus fois par mois;Pour comparer;Oui;non
+3;2-Moderee;26-39;Cadre ;Feminin;5;5;4;5;5;6;6;6;6;5;5;6;6;6;6;Plus d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour comparer;Oui;oui
+3;2-Moderee;26-39;Cadre ;Feminin;5;4;5;4;4;5;5;4;4;4;4;5;5;4;4;Pour cette experience;Plusieurs fois par mois;Moins d'une fois par mois;Pour information;Oui;non
+3;2-Moderee;26-39;Cadre ;Feminin;2;2;3;2;3;4;3;3;3;3;3;4;4;4;3;Pour cette experience;Moins d'une fois par mois;Moins d'une fois par an;Pour information;Oui;non
+3;2-Moderee;26-39;Cadre ;Feminin;4;5;4;4;4;4;3;4;4;4;3;6;5;5;4;Plus d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+3;2-Moderee;40-59;Employe;Masculin;4;5;4;5;5;4;3;4;3;2;3;4;3;4;2;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Non;non
+3;2-Moderee;40-59;Employe;Feminin;4;4;5;5;5;4;3;3;2;2;3;5;3;5;3;Moins d'un an;Moins d'une fois par mois;Moins d'une fois par an;Pour un achat precis;Oui;non
+6;3-Forte;18-25;Etudiant;Masculin;4;4;5;5;4;4;4;3;3;3;2;6;6;6;5;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour comparer;Oui;non
+6;3-Forte;18-25;Etudiant;Feminin;5;5;4;4;4;4;2;4;3;3;3;4;4;5;3;Moins d'un an;Plusieurs fois par semaine;Moins d'une fois par mois;Pour explorer;Oui;non
+6;3-Forte;18-25;Etudiant;Feminin;5;4;4;5;5;4;3;3;5;4;4;5;5;5;4;Plus d'un an;Plusieurs fois par semaine;Moins d'une fois par mois;Pour explorer;Non;non
+6;3-Forte;18-25;Etudiant;Feminin;3;3;2;2;3;3;3;2;4;2;2;4;4;5;4;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+6;3-Forte;18-25;Etudiant;Feminin;5;5;4;5;6;5;4;3;6;4;4;6;5;5;4;Plus d'un an;Plusieurs fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+6;3-Forte;18-25;Etudiant;Masculin;3;3;4;3;4;4;4;3;5;4;3;4;5;5;4;Moins d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+6;3-Forte;18-25;Employe;Feminin;4;3;3;4;3;4;3;3;3;2;2;4;3;3;3;Moins d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Non;non
+6;3-Forte;18-25;Etudiant;Feminin;3;4;4;2;3;3;2;1;3;2;2;6;5;5;4;Plus d'un an;Moins d'une fois par mois;Jamais;Pour information;Oui;non
+6;3-Forte;18-25;Demandeur d'emploi;Masculin;3;3;3;2;2;3;2;2;2;2;2;4;3;3;3;Pour cette experience;Moins d'une fois par mois;Moins d'une fois par an;Pour un achat precis;Non;non
+6;3-Forte;18-25;Etudiant;Feminin;5;5;5;6;4;5;5;4;4;4;4;4;4;4;4;Pour cette experience;Plusieurs fois par mois;Moins d'une fois par mois;Pour comparer;Oui;non
+6;3-Forte;26-39;Cadre ;Masculin;4;5;5;5;4;5;2;4;5;4;2;6;5;5;5;Plus d'un an;Plusieurs fois par mois;Plusieus fois par mois;Pour explorer;Non;non
+6;3-Forte;26-39;Cadre ;Feminin;4;4;4;3;4;5;3;3;4;4;3;5;5;5;4;Plus d'un an;Plusieurs fois par semaine;Plusieus fois par mois;Pour explorer;Oui;non
+6;3-Forte;26-39;Cadre ;Feminin;4;4;3;3;4;5;3;3;4;4;4;5;4;4;4;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Non;non
+6;3-Forte;26-39;Employe;Masculin;3;3;3;2;3;4;2;3;4;3;2;4;3;4;3;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Non;non
+6;3-Forte;40-59;Chef d'entreprise;Masculin;4;4;4;5;4;4;4;4;4;4;2;6;5;5;5;Pour cette experience;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
+6;3-Forte;40-59;Cadre ;Masculin;4;3;2;3;4;4;3;3;4;4;3;4;2;4;2;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Non;non
+6;3-Forte;40-59;Employe;Masculin;4;4;4;4;4;3;3;3;3;3;3;4;3;4;3;Plus d'un an;Moins d'une fois par mois;Moins d'une fois par mois;Pour un achat precis;Oui;non
