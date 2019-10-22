@@ -44,6 +44,7 @@ library(jtools)     #tools for regression results vizualisation
 library(lavaan)     # for sem modeling
 library(semPlot)
 
+#recodage en facteurs 
 reco_a <- read_delim("reco_a.csv", ";", escape_double = FALSE, 
     trim_ws = TRUE)
 reco_a$Transparency <-as.factor(reco_a$Transparence_Nominale)
@@ -78,7 +79,9 @@ numSummary(reco_a[,c("Confiance", "Satisfaction", "Understanding"), drop=FALSE],
 
 #comparing empirical and theoretical distribution ( density function)
 
-g1<-ggplot(data = reco_a, aes(x=Confiance))+geom_density()
+g1<-ggplot(data = reco_a, aes(x=Confiance))+geom_density(fill="pink")+theme_minimal()
+g1
+
 g1 <- g1 + stat_function(fun=dnorm, color="red", args=list(mean=mean(reco_a$Confiance), 
                                   sd=sd(reco_a$Confiance)))
 g1
@@ -155,8 +158,10 @@ for a definition of correlation see : http://www.r-tutor.com/elementary-statisti
 in the following chart we represent correlation  between Confiance and Satisfaction as an xy chart as a linear function (y=ax+b). Confidence intervals are represented in the grey area. We add a non linear function ( loess) in red.
 
 ```{r bivariate2}
-ggplot(reco_a, aes(x=Confiance, y=Satisfaction)) + geom_point()+ geom_smooth(method='lm')+geom_smooth(method='loess',color="red")
-
+ggplot(reco_a, aes(x=Confiance, y=Satisfaction)) + geom_point()+ geom_smooth(method='lm')+geom_smooth(method='gam',color="red")
+M<-cor(reco_a[,c("Confiance","Satisfaction","Understanding")], use="complete")
+M
+corrplot(M, method="color",type="lower", order="hclust")
 ```
 
 When we need to compute a large number of correlation, it is usefull to visualize the large matrix. In this case line and column are rearranged with the clustering function "hclust".
@@ -173,7 +178,7 @@ corrplot(M, method="color",type="lower", order="hclust")
 
 ## Factor analysis and measurement reliability
 
-done with Rcmdr ( factanal) with 3 factors and a promax rotation that let the factor to be correlated.
+done with Rcmdr (factanal) with 3 factors and a promax rotation that let the factor to be correlated.
 
 more is here http://www.karlin.mff.cuni.cz/~maciak/NMST539/cvicenie8.html
 
